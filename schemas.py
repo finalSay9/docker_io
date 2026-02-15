@@ -64,15 +64,12 @@ class Base(BaseModel):
         return value.lower()
 
     
-
-
 class CreateUser(Base):
     password: str
 
 
 class UserResponse(Base):
     id: int
-
 
     class Config:
         from_attributes = True

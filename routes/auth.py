@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from multiprocessing import get_context
+from fastapi import APIRouter
 from fastapi.params import Form
 from jose import JWTError, jwt
 from fastapi import Depends, HTTPException, status
@@ -12,6 +13,13 @@ from config import settings
 from dependency import get_db
 from models import User
 
+
+
+
+router = APIRouter(
+    prefix='/auth',
+    tags=['auth']
+)
 
 SECRET_KEY = settings.SECRET_KEY
 ALGOLITHM = settings.ALGORITHM
