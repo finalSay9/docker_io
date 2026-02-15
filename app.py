@@ -1,28 +1,17 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
+from numbers import Number
+from fastapi import FastAPI, Query
+from pydantic import AfterValidator, BaseModel
+import re
+from typing import Annotated, Any
+from database import Base, engine
+from routes  import users, auth
+
 
 app = FastAPI()
 
-class Bank(BaseModel):
-    bank_name: str
-    account_type: str
-    accountNo: int
-    isOwner: bool = None
-
-@app.get("/")
-def home():
-    return {"message": "Hello Docker"}
+Base.metadata.create_all(bind=engine)
 
 
-@app.post('/bank', response_model=Bank)
-def createAcc(account: Bank) -> Bank:
-    return account
 
-@app.post('use_bank', response_model=Bank)
-def useBank():
-    return {
-        "bank name": "fdh",
-        "account type": "current",
-        "account": 123487,
-        "is owner": True
-    }
+app.include_router(users.router)
+app.include_router(auth.router)
